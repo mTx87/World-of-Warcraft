@@ -1,0 +1,15 @@
+﻿## Interface: 40000
+## Title: Watashi |r[|caaedc99fDB|r]
+## Notes: Watashi DB Module
+## Author: Beatrîx (EU-Aegwynn)
+## Version: 0.1
+## Dependencies: Watashi
+## SavedVariables: WatashiDB
+## OptionalDeps: Ace3
+## X-Embeds: Ace3
+## X-Category: Interface Enhancements
+## LoadOnDemand: 0
+
+embeds.xml
+
+Watashi_DB.lua

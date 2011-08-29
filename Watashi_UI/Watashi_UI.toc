@@ -1,0 +1,14 @@
+﻿## Interface: 40000
+## Title: Watashi |r[|caaedc99fUI|r]
+## Notes: Watashi UI Module
+## Author: Beatrîx (EU-Aegwynn)
+## Version: 0.1
+## Dependencies: Watashi
+## OptionalDeps: Ace3
+## X-Embeds: Ace3
+## X-Category: Interface Enhancements
+## LoadOnDemand: 0
+
+embeds.xml
+
+Watashi_UI.lua
