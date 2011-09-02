@@ -10,10 +10,9 @@ E.version = GetAddOnMetadata("ElvUI", "Version")
 E.patch = GetBuildInfo()
 E.level = UnitLevel("player")
 E.IsElvsEdit = true
-E.resolution = GetCurrentResolution()
-E.getscreenresolution = select(E.resolution, GetScreenResolutions())
-E.getscreenheight = tonumber(string.match(({GetScreenResolutions()})[GetCurrentResolution()], "%d+x(%d+)"))
-E.getscreenwidth = tonumber(string.match(({GetScreenResolutions()})[GetCurrentResolution()], "(%d+)x+%d"))
+E.resolution = GetCVar('gxResolution')
+E.screenheight = tonumber(string.match(E.resolution, "%d+x(%d+)"))
+E.screenwidth = tonumber(string.match(E.resolution, "(%d+)x+%d"))
 E.Layouts = {} --Unitframe Layouts
 E.UIParent = CreateFrame('Frame', 'ElvUIParent', UIParent)
 E.UIParent:SetFrameLevel(E.UIParent:GetFrameLevel())
@@ -30,7 +29,7 @@ local function CheckRole(self, event, unit)
 	local tree = GetPrimaryTalentTree()
 	local resilience
 	local resilperc = GetCombatRatingBonus(COMBAT_RATING_RESILIENCE_PLAYER_DAMAGE_TAKEN)
-	if resilperc > GetDodgeChance() and resilperc > GetParryChance() then
+	if resilperc > GetDodgeChance() and resilperc > GetParryChance() and UnitLevel('player') == MAX_PLAYER_LEVEL then
 		resilience = true
 	else
 		resilience = false
