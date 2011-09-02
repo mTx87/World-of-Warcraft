@@ -20,7 +20,6 @@ E.CreateMover(TooltipHolder, "TooltipMover", "Tooltip")
 local gsub, find, format = string.gsub, string.find, string.format
 
 local Tooltips = {GameTooltip,ItemRefTooltip,ItemRefShoppingTooltip1,ItemRefShoppingTooltip2,ItemRefShoppingTooltip3,ShoppingTooltip1,ShoppingTooltip2,ShoppingTooltip3,WorldMapTooltip,WorldMapCompareTooltip1,WorldMapCompareTooltip2,WorldMapCompareTooltip3}
-
 local linkTypes = {item = true, enchant = true, spell = true, quest = true, unit = true, talent = true, achievement = true, glyph = true}
 
 local classification = {
@@ -71,11 +70,7 @@ local function SetRightTooltipPos(self)
 		else
 			if E.CheckAddOnShown() == true then
 				if C["chat"].showbackdrop == true and E.ChatRightShown == true then
-					local x, y = GetCursorPosition();
-					local effScale = self:GetEffectiveScale();
-					self:ClearAllPoints();
-					self:SetPoint("BOTTOMLEFT", UIParent,"BOTTOMLEFT",(x / effScale + (15)),(y / effScale + (7)))	
-					--self:Point("BOTTOMRIGHT", ChatRBGDummy, "TOPRIGHT", -40, 18)	
+					self:Point("BOTTOMRIGHT", ChatRBGDummy, "TOPRIGHT", -40, 18)	
 				else
 					self:Point("BOTTOMRIGHT", ChatRBGDummy, "TOPRIGHT", -8, -14)				
 				end	
@@ -87,13 +82,16 @@ local function SetRightTooltipPos(self)
 end
 
 GameTooltip:HookScript("OnUpdate",function(self, ...)
+	local owner = self:GetOwner()
+	if not owner then return end	
+	local name = owner:GetName()
+	local reanchor = false
 	if self:GetAnchorType() == "ANCHOR_CURSOR" then
 		local x, y = GetCursorPosition();
 		local effScale = self:GetEffectiveScale();
 		self:ClearAllPoints();
 		self:SetPoint("BOTTOMLEFT", UIParent,"BOTTOMLEFT",(x / effScale + (15)),(y / effScale + (7)))		
 	end
-	
 	if self:GetAnchorType() == "ANCHOR_CURSOR" and NeedBackdropBorderRefresh == true and C["tooltip"].cursor ~= true then
 		-- h4x for world object tooltip border showing last border color 
 		-- or showing background sometime ~blue :x
@@ -101,7 +99,20 @@ GameTooltip:HookScript("OnUpdate",function(self, ...)
 		self:SetBackdropColor(unpack(C.media.backdropfadecolor))
 		self:SetBackdropBorderColor(unpack(C.media.bordercolor))
 	elseif self:GetAnchorType() == "ANCHOR_NONE" then
-		SetRightTooltipPos(self)
+		if name ~= nil then
+			if string.find(name, "Examiner") then
+				reanchor = true
+				return
+			end
+		end
+		if reanchor == true then
+			local x, y = GetCursorPosition();
+			local effScale = self:GetEffectiveScale();
+			self:ClearAllPoints();
+			self:SetPoint("BOTTOMLEFT", UIParent, "BOTTOMLEFT",(x / effScale + (15)),(y / effScale + (7)))
+		else 
+			SetRightTooltipPos(self)
+		end
 	end
 end)
 
