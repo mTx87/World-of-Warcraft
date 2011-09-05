@@ -99,10 +99,11 @@ GameTooltip:HookScript("OnUpdate",function(self, ...)
 		self:SetBackdropColor(unpack(C.media.backdropfadecolor))
 		self:SetBackdropBorderColor(unpack(C.media.bordercolor))
 	elseif self:GetAnchorType() == "ANCHOR_NONE" then
-		if name ~= nil then
-			if string.find(name, "Examiner") then
-				reanchor = true
-				return
+		if owner ~= nil then
+			for i in pairs(owner) do
+				if string.find(i, "slotName") then
+					reanchor = true
+				end
 			end
 		end
 		if reanchor == true then
